@@ -677,9 +677,9 @@ int HTTPClient::sendRequest(const char * type, const uint8_t * payload, size_t s
         if(!connect()) {
             return returnError(HTTPC_ERROR_CONNECTION_REFUSED);
         }
-
-        addHeader(F("Content-Length"), String(payload && size > 0 ? size : 0));
-
+        if(size > 0) {
+            addHeader(F("Content-Length"), String(payload && size > 0 ? size : 0));
+        }
         // send Header
         if(!sendHeader(type)) {
             return returnError(HTTPC_ERROR_SEND_HEADER_FAILED);
